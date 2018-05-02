@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Home | SHORTIT</title>
+</head>
+<body style="background: #F5F5F5">
+	<form id="linkForm" action="/add" method="post">
+		<input type="text" name="link" id="link" placeholder="The URL to be shortened...">
+		<button type="submit">Submit</button>
+	</form>
+
+	
+	<script type="text/javascript">
+		
+
+		function parseLink(link){
+			var regex = /((https:\/\/)?|(http:\/\/)?)([!\*'\.\(\);:@&=+\$\,\/\?#\[\]]+)?\.?([^\.!\*'\(\);:@&=+\$\,\/\?#\[\]]+)\.([^\.!\*'\(\);:@&=+\$\,\/\?#\[\]]+)(\/.*)?/;
+			var link = link.split('.');
+			var originRegex = /https:\/\/|http:\/\//;
+			var domainRegex = /[!\*'\.\(\);:@&=+\$\,\/\?#\[\]]+/;
+			var returnValue = '' ;
+			// we first check for the existence of the origin and isolate it.
+			if(link.length < 2){
+				return false;
+			}
+			if(originRegex.test(link[0])){
+				// check if it has a domain type, we can add more domains if we want.
+				returnValue = link[0].slice(0,link[0].lastIndexOf('/')+1);
+				link[0] = link[0].slice(link[0].lastIndexOf('/')+1,);
+			}
+			for (var i = 0; i < link.length; i++){
+				if(i < link.length - 1){
+					if(!domainRegex.test(link[i])){
+						if(i == 0){
+							// this is the first part we join to the return value since we don't want to add the . anyhow
+							returnValue+=link[i];
+						}	
+						else{
+							returnValue+='.'+link[i];
+						}
+					}
+					else{
+						return false;
+					}
+				}
+				else {
+					if(link[i].indexOf['/'] == -1 && !domainRegex.test(link[i])){
+						// check if it does not have a path structure after the top-level domain type.
+						returnValue += '.' + link[i];
+					}
+					else{
+						// if it has a path structure, then we check for the path after the top-level domain
+						var topLevelDomain = link[i].slice(0,link[i].indexOf('/'))
+						console.log(topLevelDomain);
+						if(!domainRegex.test(topLevelDomain)){
+							returnValue += '.' + link[i];
+						}
+						else{
+							return false;
+						}
+					}
+				}
+			}
+			return returnValue;
+
+		}
+
+		
+
+    	var form = document.getElementById('linkForm');
+    	form.addEventListener('submit',function(e){
+    		e.preventDefault();
+    		var link = document.getElementById('link').value;
+    		var outcome = parseLink(link);
+    		if(outcome){
+    			console.log('the form is being submitted');
+    			console.log(form);
+	    		var formData = new FormData(form);
+				var xhr = new XMLHttpRequest();
+			    xhr.open("POST", '/add', true);
+			    //Send the proper header information along with the request
+			    xhr.onreadystatechange = function() {//Call a function when the state changes.
+			        if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+			        	document.body.innerHTML('Successfully voiced out')
+			      	}
+			    }   
+			    console.log(formData);
+				xhr.send(formData); 
+    		}
+    		else{
+    			alert('incorrect email pattern');
+    			return;
+    		}
+    		
+    	})
+    </script>
+</body>
+
+</html>
