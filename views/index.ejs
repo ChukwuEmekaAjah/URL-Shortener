@@ -6,7 +6,7 @@
 	<title>Home | SHORTIT</title>
 </head>
 <body style="background: #F5F5F5">
-	<form id="linkForm" action="/add" method="post">
+	<form id="linkForm" action="/add" method="post" >
 		<input type="text" name="link" id="link" placeholder="The URL to be shortened...">
 		<button type="submit">Submit</button>
 	</form>
@@ -20,7 +20,7 @@
 			var link = link.split('.');
 			var originRegex = /https:\/\/|http:\/\//;
 			var domainRegex = /[!\*'\.\(\);:@&=+\$\,\/\?#\[\]]+/;
-			var returnValue = '' ;
+			var returnValue = 'http://' ;
 			// we first check for the existence of the origin and isolate it.
 			if(link.length < 2){
 				return false;
@@ -72,28 +72,17 @@
     	var form = document.getElementById('linkForm');
     	form.addEventListener('submit',function(e){
     		e.preventDefault();
+    		
     		var link = document.getElementById('link').value;
     		var outcome = parseLink(link);
     		if(outcome){
-    			console.log('the form is being submitted');
-    			console.log(form);
-	    		var formData = new FormData(form);
-				var xhr = new XMLHttpRequest();
-			    xhr.open("POST", '/add', true);
-			    //Send the proper header information along with the request
-			    xhr.onreadystatechange = function() {//Call a function when the state changes.
-			        if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
-			        	document.body.innerHTML('Successfully voiced out')
-			      	}
-			    }   
-			    console.log(formData);
-				xhr.send(formData); 
+    			document.getElementById('link').value = outcome;
+    			form.submit();
     		}
     		else{
     			alert('incorrect email pattern');
     			return;
     		}
-    		
     	})
     </script>
 </body>

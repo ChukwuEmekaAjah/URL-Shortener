@@ -79,6 +79,7 @@ function Utils(url){
 
 	function updateLink(req,res){
 		var referer = req.get('referer');
+		console.log(referer+' this is the referer link');
 		var time = (new Date()).getTime();
 		var shortCode = req.params.id;
 		URL.findOne({shortCode:shortCode},function(err,url){

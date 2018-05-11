@@ -3,7 +3,7 @@ var User = require('../app/models/user');
 var utils = require('../config/utils');
 var crypto = require('crypto');
 
-function route(app,passport,mongoose){
+function route(app,mongoose){
 	//===========================
 	//============================
 	// THIS HANDLES THE RENDERING OF STATIC DOCUMENTS SUCH AS THE HOME PAGE AND THE ABOUT PAGE.
@@ -45,11 +45,7 @@ function route(app,passport,mongoose){
 	//=======================================
 	// 				THIS PLACE IS FOR USER AUTHENTICATION. HANDLING OF SESSIONS AND SIGNING UP
 	
-	app.post('/signup',passport.authenticate('local-signup',{failureRedirect:'/signup', failureFlash:true, successRedirect:'/'}))
 	
-	app.post('/signin',passport.authenticate('local-login',{failureRedirect:'/signin', failureFlash:true, successRedirect:'/'}),function(req,res){
-		console.log(req.user)
-	})
 	app.get('/:id',function(req,res){
 		utils.updateLink(req,res)
 	})
