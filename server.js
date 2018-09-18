@@ -8,7 +8,7 @@ var bodyParser   = require('body-parser');
 var session      = require('express-session');
 var path = require('path')
 var port     = process.env.PORT || 8080;
-var dbUrl = 'mongodb://127.0.0.1/urlllDB';
+var dbUrl = 'mongodb://127.0.0.1/urlLib';
 mongoose.connect(dbUrl)
 // set up our express application
 app.use(express.static('public'))

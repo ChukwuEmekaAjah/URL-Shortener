@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 var urlSchema = mongoose.Schema({
 	'url':String,
-	'shortCode':String,
+	'shortcode':String,
 	'dateCreated':{type:Date, default:Date.now},
 	'creatorId':String,
 	'numberOfClicks':{type:Number, default:0},
